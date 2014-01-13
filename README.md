@@ -1,4 +1,4 @@
-ebay-items
+eBay Items
 ==========
 This application periodically retrieves items on eBay via its API and displays them on the main page.
 
