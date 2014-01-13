@@ -1,0 +1,5 @@
+cron:
+- description: regular update job
+  url: /update
+  schedule: every 3 hours synchronized
+  target: reporting

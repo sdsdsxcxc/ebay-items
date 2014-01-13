@@ -1,0 +1,9 @@
+*.class
+*.orig
+*.pyc
+*.pyo
+*.rej
+.hg
+.externalToolBuilders
+.pydevproject
+.project

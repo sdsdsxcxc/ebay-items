@@ -1,0 +1,58 @@
+application: auction-items
+version: 1
+runtime: python27
+threadsafe: true
+api_version: 1
+
+libraries:
+- name: lxml
+  version: latest
+
+builtins:
+- deferred: on
+
+# builtins:
+ # - appstats: on
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: /bootstrap
+  static_dir: bootstrap
+
+- url: /css
+  static_dir: css
+
+- url: /scripts
+  static_dir: scripts
+
+- url: /themes
+  static_dir: themes
+
+- url: /images
+  static_dir: images
+
+- url: /partials
+  static_dir: templates/partials
+
+- url: /settings
+  script: settings.app
+  login: admin
+
+- url: /
+  script: apphandlers.app
+
+- url: /PersonActions
+  script: apphandlers.app
+
+- url: /update
+  script: apphandlers.app
+  login: admin
+
+- url: /createfilters
+  script: apphandlers.app
+  login: admin
+
+
