@@ -42,7 +42,7 @@ class Filter(ndb.Model):
 
     @classmethod
     def get_all_filters(cls):
-        q = cls.query()
+        q = cls.query().order(cls.search_term)
         return q.map(lambda rec: rec.to_dict())
 
         
@@ -112,7 +112,13 @@ class Item(ndb.Model):
         if order_type:
             qr = qr.order(order_type)
             logging.info(qr)
-        count = qr.count()
+
+        cache_key = "%s_%s_%s_%s" % ("Item.count", category, search_term, condition)
+        count = memcache.get(cache_key)
+        if count is None:
+            count = qr.count()
+            memcache.set(cache_key, count)
+
         result = qr.map(lambda rec: rec.to_dict(), limit=PageSize, offset=StartIndex)
         return [result,count]
 
@@ -161,6 +167,15 @@ class Item(ndb.Model):
             error_info = sys.exc_info()
             logging.info(str(error_info)) 
             logging.info(e)
+
+    @classmethod
+    def _post_delete_hook(cls, key, future):
+        logging.info("_post_delete_hook")
+        memcache.flush_all()
+
+    def _post_put_hook(self, future):
+        logging.info("_post_put_hook")
+        memcache.flush_all()
 
 
 class Categories(ndb.Model):
