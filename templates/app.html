@@ -2,7 +2,7 @@
 <html lang="en" ng-app="MyApp">
 <head>
   <meta charset="utf-8">
-  <title>Google Phone Gallery</title>
+  <title>eBay Items</title>
 
 <link href='http://fonts.googleapis.com/css?family=Share+Tech' rel='stylesheet' type='text/css'>
 <link href="/css/bootstrap/3.0.2/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -12,10 +12,10 @@
 
 
 </head>
-<body ng-controller='MainController' ng-init="initialize({{ user|yesno:"true,false" }}, {{ is_current_user_admin|yesno:"true,false" }})">
+<body ng-controller='MainController' ng-init="initialize({{ "true" if user else "false" }}, {{ "true" if is_current_user_admin else "false" }})">
 
 <span class="admin" ng-cloak>
-    Hi {% firstof user "Anonymous" %}!
+    Hi {{ "Anonymous" if user is none else user }}!
     <a href="{{logout_url}}" class="logout" ng-show="globals.is_authenticated">logout</a>
     <a href="{{login_url}}" class="login" ng-hide="globals.is_authenticated">login</a>
 </span>

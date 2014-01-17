@@ -3,14 +3,16 @@ import json
 import urllib
 import logging
 from google.appengine.api import users
-from google.appengine.ext.webapp import template
 import webapp2
+import jinja2
 import models
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    autoescape=True, extensions=['jinja2.ext.autoescape'],
+    loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')))
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        path = os.path.join(os.path.dirname(__file__), 'templates', 'app.html')
-        logging.info("path = " + path)
         categories = ['default',] + models.Categories.get_categories()
         user = users.get_current_user()
         is_current_user_admin = users.is_current_user_admin()
@@ -26,7 +28,9 @@ class MainPage(webapp2.RequestHandler):
                            'logout_url':  users.create_logout_url('/'),
                            'login_url': users.create_login_url('/'),
         }
-        self.response.write(template.render(path, template_values))
+        path = 'app.html'
+        template = JINJA_ENVIRONMENT.get_template(path)
+        self.response.write(template.render(template_values))
 
 
 class PersonActions(webapp2.RequestHandler):
