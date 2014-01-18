@@ -12,7 +12,7 @@ config = {
                            'environment_args': {'extensions': ['jinja2.ext.i18n']}},
 
 # application name
-'app_name' : "eBay Filter",
+'app_name' : "auction-items",
 
 # the default language code for the application.
 # should match whatever language the site uses when i18n is disabled

@@ -4,6 +4,7 @@ import os
 import webapp2
 import webtest
 from google.appengine.ext import testbed
+import ConfigParser
 
 #from boilerplate.lib import utils
 from test_tools import test_helpers
@@ -11,10 +12,10 @@ from test_tools import test_helpers
 from test_tools import config, routes
 
 from ebay_items import EbayItems
-
+from settings import InstallRecord
 
 os.environ['HTTP_HOST'] = 'localhost'
-
+EBAY_API_SETTINGS_FILE = "ebay_api_credentials.ini"
 
 class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def setUp(self):
@@ -35,9 +36,19 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.testbed.init_taskqueue_stub()
         self.testbed.init_mail_stub()
         self.testbed.init_blobstore_stub()
+        self.testbed.init_modules_stub()
         self.mail_stub = self.testbed.get_stub(testbed.MAIL_SERVICE_NAME)
         self.taskqueue_stub = self.testbed.get_stub(testbed.TASKQUEUE_SERVICE_NAME)
         self.testbed.init_user_stub()
+
+        cfg = ConfigParser.ConfigParser(allow_no_value=True)
+        cfg.read(EBAY_API_SETTINGS_FILE)
+
+        InstallRecord(DeveloperKey=cfg.get("api", "DeveloperKey") or "",
+                      ApplicationKey=cfg.get("api", "ApplicationKey") or "",
+                      CertificateKey=cfg.get("api", "CertificateKey") or "",
+                      Token=cfg.get("api", "Token") or "",
+                      Zip=cfg.get("api", "Zip") or "").put()
 
         self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) Version/6.0 Safari/536.25',
                         'Accept-Language': 'en_US'}
@@ -53,36 +64,20 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
     def test_homepage(self):
         response = self.get('/')
-        self.assertIn('JTABLE VERSION OF THE TABLE START', response)
-
-#     def test_products_db_page(self):
-#         response = self.get('/database')
-#         self.assertIn('Product Database', response)
+        self.assertIn('eBay Items', response)
 
     def test_item_search(self):
         search_term = 'iphone'
         category = 'default'
-        condition = None
+        condition = 'Used'
         max_price = '1000'
         Zip = '27104'
-        data = EbayItems.item_search(item_search=search_term,
+        data = EbayItems.search_items(search_term=search_term,
                                      category=category,
                                      condition=condition,
                                      max_price=max_price,
                                      Zip=Zip)
         self.assertIn(search_term, str(data))
-
-
-
-    # def test_jtable(self):
-    #     value = {'action': 'list',
-    #              'category': 'default',
-    #              'jtStartIndex': '0',
-    #              'jtPageSize': '20',
-    #              'jtSorting': 'price%20ASC'}
-    #     response = self.post('/PersonActions', value)
-    #     self.assertIn('Current Bid', response)
-
 
         
 if __name__ == "__main__":

@@ -8,3 +8,6 @@
 .pydevproject
 .project
 .idea
+result*
+ebay_api_credentials.ini
+
