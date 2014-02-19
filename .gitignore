@@ -10,4 +10,5 @@
 .idea
 result*
 ebay_api_credentials.ini
+node_modules
 

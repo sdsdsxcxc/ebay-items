@@ -13,7 +13,6 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        categories = ['default',] + models.Categories.get_categories()
         user = users.get_current_user()
         is_current_user_admin = users.is_current_user_admin()
         logging.info(user)
@@ -22,7 +21,6 @@ class MainPage(webapp2.RequestHandler):
         template_values = {
                            'keyword': self.request.get("keyword"),
                            'condition': self.request.get("condition"),
-                           'categories': categories,
                            'user': user,
                            'is_current_user_admin': is_current_user_admin,
                            'logout_url':  users.create_logout_url('/'),
@@ -109,17 +107,17 @@ class CreateFilters(webapp2.RequestHandler):
     def get(self):
         try:
             models.Filter(category='auto',
-                          condition='new',
+                          condition='New',
                           max_price='50000',
                           search_term='mercedes'
                           ).put()
             models.Filter(category='auto',
-                          condition='new',
+                          condition='New',
                           max_price='50000',
                           search_term='audi'
                           ).put()
             models.Filter(category='phones',
-                          condition='new',
+                          condition='New',
                           max_price='5000',
                           search_term='iphone'
                           ).put()

@@ -145,18 +145,22 @@ nav a:last-child{
 /* ---- #page-nav ---- */
 
 #page-nav {
-  background-color:#1C4C98;
-  padding: 1.0em 0;
-  font-size: 13px;
-  z-index: 2; /* above packeries */
+	/*max-height:70%;*/
+	overflow: auto;
+	background-color:#1C4C98;
+	padding: 1.0em 0;
+	font-size: 13px;
+	z-index: 2; /* above packeries */
 }
-
+/*#page-nav ul {
+	max-height:70%;
+}*/
 #page-nav li {
-  display: inline-block;
+	display: inline-block;
 }
 
 #page-nav li:last-child:after {
-  content: none;
+	content: none;
 }
 
 #page-nav li:hover {
@@ -170,13 +174,13 @@ nav a:last-child{
 @media screen and ( min-width: 560px ) {
 
   .primary-content {
-    margin-right: 100px;
+    margin-right: 110px;
   }
 
   #page-nav {
-    position: fixed;
-    right: 5px;
-    top: 60px;
+    position: absolute;
+    right: 15px;
+    top: 146px;
     list-style: none;
     padding: 0;
     width: 100px;
