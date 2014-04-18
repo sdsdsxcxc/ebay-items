@@ -11,4 +11,9 @@
 result*
 ebay_api_credentials.ini
 node_modules
-
+db_backup
+dist
+.tmp
+.sass-cache
+app/bower_components
+.old

@@ -1,0 +1,24 @@
+    <div class="primary-content">
+        <div id="container" ng-controller="MasonryCtrl">
+            <div masonry masonry-options="{ isFitWidth: true, columnWidth: 240 }" class="myMasonry">
+                <div class="masonry-brick masonry-item" data-modal="modal-1" ng-repeat='item in items' data-ng-click="openModal(item)">
+                    <img ng-src="{{ item.pictureURLSuperSize }}" />  <!--onError="this.onerror=null;this.src='/images/ebay_market_182x76.gif';" -->
+                    <p class="masonry-p">{{ item.description }}</p>
+                    <p class="masonry-p">${{ item.price }}</p>
+                </div>
+            </div>
+           <!-- </section>-->
+        </div>
+    </div>
+
+
+    <div id="content">
+        <ul id="page-nav">
+                <li ng-click="setKeyword('')" ng-class="rightBarClass('')"><span>all</span></li>
+                <li ng-repeat='term in terms' ng-class="rightBarClass('{{term.search_term}}')" ng-click="setKeyword(term.search_term)"><span>{{term.search_term}}</span></li>
+        </ul>
+    </div>
+
+    <div class="well well-small paging-bar">
+        <pager total-items="totalItems" items-per-page="globals.pageSize" page="currentPage" class="paging-pager" on-select-page="setPage(page)"></pager>
+    </div>

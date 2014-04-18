@@ -7,9 +7,20 @@ import webapp2
 import jinja2
 import models
 
+# *** for production
+FRONTEND_DIR = 'dist'
+FRONTEND_INDEX_FILE = 'index.html'
+# *** for local development
+# FRONTEND_DIR = 'app'
+# FRONTEND_INDEX_FILE = 'index.html'
+# *** for old non-yeoman version
+# FRONTEND_DIR = 'templates'
+# FRONTEND_INDEX_FILE = 'app.html'
+
+
 JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True, extensions=['jinja2.ext.autoescape'],
-    loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')))
+    loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), FRONTEND_DIR)))
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
@@ -17,6 +28,7 @@ class MainPage(webapp2.RequestHandler):
         is_current_user_admin = users.is_current_user_admin()
         logging.info(user)
         logging.info(is_current_user_admin)
+        logging.info("referer: " + str(self.request.referer))
         
         template_values = {
                            'keyword': self.request.get("keyword"),
@@ -26,7 +38,7 @@ class MainPage(webapp2.RequestHandler):
                            'logout_url':  users.create_logout_url('/'),
                            'login_url': users.create_login_url('/'),
         }
-        path = 'app.html'
+        path = FRONTEND_INDEX_FILE
         template = JINJA_ENVIRONMENT.get_template(path)
         self.response.write(template.render(template_values))
 

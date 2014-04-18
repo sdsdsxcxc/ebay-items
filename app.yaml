@@ -16,29 +16,75 @@ builtins:
 # builtins:
  # - appstats: on
 
+skip_files:
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
+- ^db_backup/*
+- ^result*
+- ^app/.*
+- ^dist/bower_components/*
+- ^node_modules/*
+
 handlers:
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: /bootstrap
-  static_dir: bootstrap
+# PRODUCTION STATIC
+- url: /styles
+  static_dir: dist/styles
 
-- url: /css
-  static_dir: css
+- url: /views
+  static_dir: dist/views
+
+- url: /bower_components
+  static_dir: dist/bower_components
 
 - url: /scripts
-  static_dir: scripts
-
-- url: /themes
-  static_dir: themes
+  static_dir: dist/scripts
 
 - url: /images
-  static_dir: images
+  static_dir: dist/images
 
-- url: /partials
-  static_dir: templates/partials
+# LOCAL DEVELOPMENT STATIC
+#- url: /styles
+#  static_dir: app/styles
+#
+#- url: /views
+#  static_dir: app/views
+#
+#- url: /bower_components
+#  static_dir: app/bower_components
+#
+#- url: /scripts
+#  static_dir: app/scripts
+#
+#- url: /images
+#  static_dir: app/images
+#
+# OLD NON-YEOMAN FRONTEND
+#- url: /css
+#  static_dir: css
+#
+#- url: /scripts
+#  static_dir: scripts
+#
+#- url: /images
+#  static_dir: images
+#
+#- url: /bootstrap
+#  static_dir: bootstrap
+#
+#- url: /themes
+#  static_dir: themes
+#
+#- url: /partials
+#  static_dir: templates/partials
 
+# HANDLERS
 - url: /settings
   script: settings.app
   login: admin

@@ -1,5 +1,5 @@
 cron:
-- description: regular update job
-  url: /update
-  schedule: every 3 hours synchronized
-  target: reporting
+#- description: regular update job
+#  url: /update
+#  schedule: every 24 hours synchronized
+#  target: reporting
