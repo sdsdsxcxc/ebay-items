@@ -1,5 +1,7 @@
 import json
 import logging
+from ebay.utils import set_config_file
+from ebay.utils import get_config_store
 from ebay.finding import findItemsByKeywords
 from ebay.shopping import GetMultipleItems
 from settings import InstallRecord
@@ -32,10 +34,13 @@ class EbayItems(object):
                      max_price=None,
                      Zip=None):
         logging.info(str(locals()))
+        set_config_file("ebay_api_credentials.ini")
         if not search_term:
             return []
         if not Zip:
-            Zip = InstallRecord.get_field('Zip')
+            config = get_config_store()
+            Zip = config.get("settings", "zip")
+            logging.info(Zip)
         itemFilter = []
         if max_price:
             itemFilter = [{'name': 'MaxPrice',
@@ -50,7 +55,9 @@ class EbayItems(object):
         json_str = findItemsByKeywords(keywords=search_term,
                                        buyerPostalCode=Zip,
                                        itemFilter=itemFilter,
-                                       outputSelector=outputSelector)
+                                       outputSelector=outputSelector,
+                                       aspectFilter=[],
+                                       domainFilter=[])
         logging.info(json_str)
         data = json.loads(json_str)
         items_count = int(cls.item_attr(data, ['findItemsByKeywordsResponse', 0,

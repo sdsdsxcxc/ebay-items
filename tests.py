@@ -44,11 +44,11 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         cfg = ConfigParser.ConfigParser(allow_no_value=True)
         cfg.read(EBAY_API_SETTINGS_FILE)
 
-        InstallRecord(DeveloperKey=cfg.get("api", "DeveloperKey") or "",
-                      ApplicationKey=cfg.get("api", "ApplicationKey") or "",
-                      CertificateKey=cfg.get("api", "CertificateKey") or "",
-                      Token=cfg.get("api", "Token") or "",
-                      Zip=cfg.get("api", "Zip") or "").put()
+        InstallRecord(DeveloperKey=cfg.get("keys", "dev_name") or "",
+                      ApplicationKey=cfg.get("keys", "app_name") or "",
+                      CertificateKey=cfg.get("keys", "cert_name") or "",
+                      Token=cfg.get("auth", "token") or "",
+                      Zip=cfg.get("settings", "zip") or "").put()
 
         self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) Version/6.0 Safari/536.25',
                         'Accept-Language': 'en_US'}

@@ -1,0 +1,6 @@
+[submodule "lib/ebay_api"]
+	path = lib/ebay_api
+	url = git://github.com/roopeshvaddepally/python-ebay.git
+[submodule "lib/requests"]
+	path = lib/requests
+	url = git://github.com/kennethreitz/requests.git
