@@ -12,10 +12,10 @@ from test_tools import test_helpers
 from test_tools import config, routes
 
 from ebay_items import EbayItems
-from settings import InstallRecord
-
+from models import EbayItem
+import settings
 os.environ['HTTP_HOST'] = 'localhost'
-EBAY_API_SETTINGS_FILE = "ebay_api_credentials.ini"
+
 
 class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def setUp(self):
@@ -42,13 +42,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.testbed.init_user_stub()
 
         cfg = ConfigParser.ConfigParser(allow_no_value=True)
-        cfg.read(EBAY_API_SETTINGS_FILE)
-
-        InstallRecord(DeveloperKey=cfg.get("keys", "dev_name") or "",
-                      ApplicationKey=cfg.get("keys", "app_name") or "",
-                      CertificateKey=cfg.get("keys", "cert_name") or "",
-                      Token=cfg.get("auth", "token") or "",
-                      Zip=cfg.get("settings", "zip") or "").put()
+        cfg.read(settings.EBAY_API_SETTINGS_FILE)
 
         self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) Version/6.0 Safari/536.25',
                         'Accept-Language': 'en_US'}
@@ -78,6 +72,10 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
                                      max_price=max_price,
                                      Zip=Zip)
         self.assertIn(search_term, str(data))
+
+    def test_update_items(self):
+        EbayItem.update_items()
+        self.assertEqual(True, True)
 
         
 if __name__ == "__main__":

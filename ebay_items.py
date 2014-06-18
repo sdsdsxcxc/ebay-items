@@ -4,11 +4,12 @@ from ebay.utils import set_config_file
 from ebay.utils import get_config_store
 from ebay.finding import findItemsByKeywords
 from ebay.shopping import GetMultipleItems
-from settings import InstallRecord
+import settings
 
 
 class EbayItemError(Exception):
     pass
+
 
 class EbayItems(object):
     @staticmethod
@@ -20,7 +21,7 @@ class EbayItems(object):
                 result_temp = result_temp[attr]
             result = result_temp
         except Exception as e:
-            logging.info('no such attribute in item: ' + str(e))
+            # logging.info('no such attribute in item: ' + str(e))
             return default
         else:
             return result
@@ -34,7 +35,7 @@ class EbayItems(object):
                      max_price=None,
                      Zip=None):
         logging.info(str(locals()))
-        set_config_file("ebay_api_credentials.ini")
+        set_config_file(settings.EBAY_API_SETTINGS_FILE)
         if not search_term:
             return []
         if not Zip:

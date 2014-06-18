@@ -9,6 +9,8 @@ libraries:
   version: latest
 - name: jinja2
   version: latest
+- name: pycrypto
+  version: latest
 
 builtins:
 - deferred: on
@@ -24,9 +26,9 @@ skip_files:
 - ^(.*/)?\..*$
 - ^db_backup/*
 - ^result*
-- ^app/.*
 - ^dist/bower_components/*
 - ^node_modules/*
+- ^app/.*  # comment it for LOCAL DEVELOPMENT STATIC
 
 handlers:
 - url: /favicon\.ico
@@ -85,10 +87,6 @@ handlers:
 #  static_dir: templates/partials
 
 # HANDLERS
-- url: /settings
-  script: settings.app
-  login: admin
-
 - url: /
   script: apphandlers.app
 
@@ -103,4 +101,7 @@ handlers:
   script: apphandlers.app
   login: admin
 
+- url: /cleardb
+  script: apphandlers.app
+  login: admin
 

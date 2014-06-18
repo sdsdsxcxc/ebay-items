@@ -1,0 +1,36 @@
+application: auction-items
+module: reporting
+version: 1
+runtime: python27
+threadsafe: true
+api_version: 1
+basic_scaling:
+  max_instances: 1
+
+
+libraries:
+- name: lxml
+  version: latest
+- name: jinja2
+  version: latest
+
+builtins:
+- deferred: on
+
+skip_files:
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
+- ^db_backup/*
+- ^result*
+- ^dist/bower_components/*
+- ^node_modules/*
+- ^app/.*  # comment it for LOCAL DEVELOPMENT STATIC
+
+handlers:
+- url: /update
+  script: apphandlers.app
+  login: admin
+

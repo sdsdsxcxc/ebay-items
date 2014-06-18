@@ -22,6 +22,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True, extensions=['jinja2.ext.autoescape'],
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), FRONTEND_DIR)))
 
+
 class MainPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
@@ -63,17 +64,17 @@ class PersonActions(webapp2.RequestHandler):
             if sorting_field == 'price':
                 sorting_field = 'percent'
             if sorting_type == "ASC":
-                order_type = -(getattr(models.Item, sorting_field)) #-Item.percent 
+                order_type = -(getattr(models.EbayItem, sorting_field))  # -EbayItem.percent
             elif sorting_type == "DESC":
-                order_type = getattr(models.Item, sorting_field) #Item.percent
+                order_type = getattr(models.EbayItem, sorting_field)  # EbayItem.percent
             else:
-                order_type =  None
-            [data_items,count] = models.Item.get_items(StartIndex=start_index,
-                                                          PageSize=page_size,
-                                                          category=category,
-                                                          search_term=keyword,
-                                                          condition=condition,
-                                                          order_type=order_type)
+                order_type = None
+            [data_items, count] = models.EbayItem.get_items(StartIndex=start_index,
+                                                            PageSize=page_size,
+                                                            category=category,
+                                                            search_term=keyword,
+                                                            condition=condition,
+                                                            order_type=order_type)
             terms = models.Filter.get_all_filters()
             template_values = {
                 'Records': data_items,
@@ -93,7 +94,7 @@ class PersonActions(webapp2.RequestHandler):
 
     def post(self):
         try:
-            models.Item.delete_item(self.request.get("itemID"))
+            models.EbayItem.delete_item(self.request.get("itemID"))
             template_values = {
                 'Result': 'OK'
             }
@@ -108,7 +109,7 @@ class PersonActions(webapp2.RequestHandler):
 class Update(webapp2.RequestHandler):
     def get(self):
         try:
-            models.Item.update_items()
+            models.EbayItem.update_items()
             logging.info('updated')
         except Exception as e:
             logging.debug(str(e))
@@ -118,17 +119,20 @@ class Update(webapp2.RequestHandler):
 class CreateFilters(webapp2.RequestHandler):
     def get(self):
         try:
-            models.Filter(category='auto',
+            models.Filter(id='mercedes',
+                          category='auto',
                           condition='New',
                           max_price='50000',
                           search_term='mercedes'
                           ).put()
-            models.Filter(category='auto',
+            models.Filter(id='audi',
+                          category='auto',
                           condition='New',
                           max_price='50000',
                           search_term='audi'
                           ).put()
-            models.Filter(category='phones',
+            models.Filter(id='iphone',
+                          category='phones',
                           condition='New',
                           max_price='5000',
                           search_term='iphone'
@@ -139,8 +143,20 @@ class CreateFilters(webapp2.RequestHandler):
         self.redirect('/')
 
 
+class ClearDB(webapp2.RequestHandler):
+    def get(self):
+        # logging.info("EbayItem count: " + str(models.EbayItem.query().count()))
+        logging.info("ClearDB start")
+        q = models.EbayItem.query()
+        logging.info("ClearDB processing")
+        q.map(lambda i: i.delete(), keys_only=True, limit=5000)
+        logging.info("ClearDB end")
+        self.redirect('/')
+
+
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/PersonActions', PersonActions),
                                ('/update', Update),
+                               ('/cleardb', ClearDB),
                                ('/createfilters', CreateFilters)], debug=True)
 

@@ -8,8 +8,11 @@
 .pydevproject
 .project
 .idea
+.log*
 result*
 ebay_api_credentials.ini
+google_api_credentials.ini
+privatekey.pem
 node_modules
 db_backup
 dist
