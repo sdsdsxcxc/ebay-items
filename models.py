@@ -220,12 +220,12 @@ class EbayItem(ndb.Model):
         # logging.info("_post_delete_hook: " + str(future.get_result()))
         general_counter.decrement(cls.__name__)
         cls.delete_photo(itemID=key.id())
-        # memcache.flush_all()
+        memcache.flush_all()
 
     def _post_put_hook(self, future):
         # logging.info("_post_put_hook: " + str(future.get_result()))
         general_counter.increment(self.__class__.__name__)
-        # memcache.flush_all()
+        memcache.flush_all()
 
 
 class Categories(ndb.Model):
