@@ -13,6 +13,8 @@ libraries:
   version: latest
 - name: jinja2
   version: latest
+- name: pycrypto
+  version: latest
 
 builtins:
 - deferred: on

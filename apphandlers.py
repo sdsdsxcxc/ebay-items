@@ -3,6 +3,7 @@ import json
 import urllib
 import logging
 from google.appengine.api import users
+from google.appengine.ext import deferred
 import webapp2
 import jinja2
 import models
@@ -108,13 +109,24 @@ class PersonActions(webapp2.RequestHandler):
 
 class Update(webapp2.RequestHandler):
     def get(self):
-        try:
-            models.EbayItem.update_items()
-            logging.info('updated')
-        except Exception as e:
-            logging.debug(str(e))
+        mode = self.request.get("mode"),
+#        try:
+        if mode == 'deferred':
+            deferred.defer(run_task, _target='1.reporting')
+        else:
+            run_task()
+        logging.info('updated')
+#        except Exception as e:
+#            logging.debug(str(e))
         self.redirect('/')
 
+
+def run_task():
+    try:
+        models.EbayItem.update_items()
+    except Exception as e:
+        raise deferred.PermanentTaskFailure("raise PermanentTaskFailure to prevent task re-running " + str(e))
+        
 
 class CreateFilters(webapp2.RequestHandler):
     def get(self):

@@ -59,7 +59,7 @@ class EbayItems(object):
                                        outputSelector=outputSelector,
                                        aspectFilter=[],
                                        domainFilter=[])
-        logging.info(json_str)
+#        logging.info(json_str)
         data = json.loads(json_str)
         items_count = int(cls.item_attr(data, ['findItemsByKeywordsResponse', 0,
                                                 'searchResult', 0, '@count'], '0'))

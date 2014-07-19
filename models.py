@@ -134,7 +134,8 @@ class EbayItem(ndb.Model):
     def save_item(cls, item):
         # logging.info("save item: " + item["itemID"])
         parent = ndb.Key('Filter', item["search_term"])
-        item["pictureURLSuperSize"] = cls.save_photo(item["itemID"], item["pictureURLSuperSize"])
+        item["pictureURLSuperSize"] = cls.save_photo(item["itemID"], item["pictureURLSuperSize"]) \
+            if item["pictureURLSuperSize"] else ""
         record_key = cls(id=item["itemID"], parent=parent, **item).put()
         return record_key
 
