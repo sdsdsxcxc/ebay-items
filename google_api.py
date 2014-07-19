@@ -4,9 +4,9 @@ import httplib2
 import io
 from os.path import join, dirname, abspath
 
-from apiclient import http as api_http
-from apiclient import errors as api_errors
-from apiclient.discovery import build
+from googleapiclient import http as api_http
+from googleapiclient import errors as api_errors
+from googleapiclient.discovery import build
 from oauth2client.client import SignedJwtAssertionCredentials
 from oauth2client.appengine import CredentialsNDBModel
 from oauth2client.appengine import StorageByKeyName
@@ -28,7 +28,7 @@ class GoogleAPI(object):
         credentials = storage_ndb.get()
         if credentials is None:
             # self.read_settings()
-            with open(self.ApiSettings["private_key_file"]) as f:
+            with open(join(dirname(abspath(__file__)), self.ApiSettings["private_key_file"])) as f:
                 private_key = f.read()
 
             credentials = SignedJwtAssertionCredentials(
