@@ -26,9 +26,9 @@ skip_files:
 - ^(.*/)?\..*$
 - ^db_backup/*
 - ^result*
-- ^dist/bower_components/*
-- ^node_modules/*
-- ^app/.*  # comment it for LOCAL DEVELOPMENT STATIC
+- ^client/dist/bower_components/*
+- ^client/node_modules/*
+- ^client/app/.*  # comment it for LOCAL DEVELOPMENT STATIC
 
 handlers:
 - url: /favicon\.ico
@@ -37,35 +37,35 @@ handlers:
 
 # PRODUCTION STATIC
 - url: /styles
-  static_dir: dist/styles
+  static_dir: client/dist/styles
 
 - url: /views
-  static_dir: dist/views
+  static_dir: client/dist/views
 
 - url: /bower_components
-  static_dir: dist/bower_components
+  static_dir: client/dist/bower_components
 
 - url: /scripts
-  static_dir: dist/scripts
+  static_dir: client/dist/scripts
 
 - url: /images
-  static_dir: dist/images
+  static_dir: client/dist/images
 
 # LOCAL DEVELOPMENT STATIC
 #- url: /styles
-#  static_dir: app/styles
+#  static_dir: client/app/styles
 #
 #- url: /views
-#  static_dir: app/views
+#  static_dir: client/app/views
 #
 #- url: /bower_components
-#  static_dir: app/bower_components
+#  static_dir: client/app/bower_components
 #
 #- url: /scripts
-#  static_dir: app/scripts
+#  static_dir: client/app/scripts
 #
 #- url: /images
-#  static_dir: app/images
+#  static_dir: client/app/images
 #
 # OLD NON-YEOMAN FRONTEND
 #- url: /css

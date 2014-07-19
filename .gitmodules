@@ -10,3 +10,6 @@
 [submodule "lib/httplib2"]
 	path = lib/httplib2
 	url = git://github.com/jcgregorio/httplib2.git
+[submodule "client"]
+	path = client
+	url = git://github.com/sdsdsxcxc/ebay-items-client.git

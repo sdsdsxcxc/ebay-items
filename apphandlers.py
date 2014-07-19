@@ -9,10 +9,10 @@ import jinja2
 import models
 
 # *** for production
-FRONTEND_DIR = 'dist'
+FRONTEND_DIR = 'client/dist'
 FRONTEND_INDEX_FILE = 'index.html'
 # *** for local development
-# FRONTEND_DIR = 'app'
+# FRONTEND_DIR = 'client/app'
 # FRONTEND_INDEX_FILE = 'index.html'
 # *** for old non-yeoman version
 # FRONTEND_DIR = 'templates'

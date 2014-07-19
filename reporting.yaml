@@ -27,9 +27,9 @@ skip_files:
 - ^(.*/)?\..*$
 - ^db_backup/*
 - ^result*
-- ^dist/bower_components/*
-- ^node_modules/*
-- ^app/.*  # comment it for LOCAL DEVELOPMENT STATIC
+- ^client/dist/bower_components/*
+- ^client/node_modules/*
+- ^client/app/.*  # comment it for LOCAL DEVELOPMENT STATIC
 
 handlers:
 - url: /update
